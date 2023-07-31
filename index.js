@@ -9,6 +9,8 @@ import morgan from 'morgan';
 import path from 'path';
 import './src/database/dbconnections';
 import productosRouter from './src/routes/productos.routes';
+import pedidorouter from './src/routes/pedidos.routes';
+;
 //import usuarioRouter from './src/routes/usuarios.routes';
 
 dotenv.config();
@@ -39,4 +41,5 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // http://localhost:4000/apicafe/prueba
 app.use('/apirestaurante', productosRouter)
+app.use('/apirestaurante', pedidorouter)
 //app.use('/apicafe/auth',usuarioRouter) 
