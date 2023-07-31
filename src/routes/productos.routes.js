@@ -9,21 +9,20 @@ import {
 } from "../controllers/productos.controllers";
 import { check } from "express-validator";
 import validarProducto from "../helpers/validarProducto";
+import authenticateToken from '../middleware/authMiddleware'; 
 
 const router = Router();
-router.route("/prueba").get(controladorPrueba);
+
+router.get("/prueba", authenticateToken, controladorPrueba);
 router
   .route("/productos")
-  .post(validarProducto, crearProducto)
+  .post(authenticateToken, validarProducto, crearProducto) 
   .get(obtenerListaProductos);
+
 router
   .route("/productos/:id")
-  .get(obtenerProducto)
-  .delete(borrarProducto)
-  .put( validarProducto, editarProducto);
+  .get(authenticateToken, obtenerProducto) 
+  .delete(authenticateToken, borrarProducto)
+  .put(authenticateToken, validarProducto, editarProducto);
 
 export default router;
-
-// app.get('/prueba', (req, res )=>{
-//     res.send('esto es una prueba de la ruta GET')
-// })
