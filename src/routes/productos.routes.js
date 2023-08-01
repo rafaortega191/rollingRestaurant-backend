@@ -21,7 +21,7 @@ router
 
 router
   .route("/productos/:id")
-  .get(authenticateToken, obtenerProducto) 
+  .get(obtenerProducto) 
   .delete(authenticateToken, borrarProducto)
   .put(authenticateToken, validarProducto, editarProducto);
 
