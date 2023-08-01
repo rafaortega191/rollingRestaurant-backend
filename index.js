@@ -2,6 +2,7 @@
 //si es la primera vez usa (npm install express --save)
 //y usa (npm i babel-cli babel-preset-env express-validator mongoose cors morgan dotenv)
 //instalar esto (npm install -g nodemon)
+<<<<<<< HEAD
 import cors from "cors";
 import * as dotenv from "dotenv";
 import morgan from "morgan";
@@ -14,6 +15,18 @@ const userRoutes = require("./src/routes/auth.routes");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const express = require("express");
+=======
+import express from 'express';
+import cors from 'cors'
+import * as dotenv from 'dotenv';
+import morgan from 'morgan';
+import path from 'path';
+import './src/database/dbconnections';
+import productosRouter from './src/routes/productos.routes';
+import pedidorouter from './src/routes/pedidos.routes';
+;
+//import usuarioRouter from './src/routes/usuarios.routes';
+>>>>>>> dev
 
 dotenv.config();
 
@@ -38,6 +51,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 //     res.send('Esta es una prueba de mi ruta GET')
 // })
 
+<<<<<<< HEAD
 app.use("/user", userRoutes);
 
 app.use("/apirestaurante", productosRouter);
@@ -45,3 +59,9 @@ app.use("/apirestaurante", productosRouter);
 app.listen(app.get("PORT"), () => {
   console.log(`Servidor corriendo en http://localhost:${app.get("PORT")}`);
 });
+=======
+// http://localhost:4000/apicafe/prueba
+app.use('/apirestaurante', productosRouter)
+app.use('/apirestaurante', pedidorouter)
+//app.use('/apicafe/auth',usuarioRouter) 
+>>>>>>> dev
