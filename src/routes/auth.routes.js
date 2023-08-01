@@ -15,13 +15,14 @@ router.post("/registro", async (req, res) => {
       return res.status(400).json({ message: "El email ya está registrado" });
     }
 
-    const newUser = new User({ email, password, nombre });
+    const es_admin = false;
+    const newUser = new User({ email, password, nombre , es_admin});
 
     console.log(newUser)
 
     await newUser.save();
 
-    return res.status(201).json({ message: "Usuario registrado exitosamente", usuario: nombre });
+    return res.status(201).json({ message: "Usuario registrado exitosamente", nombre: newUser.nombre , es_admin: newUser.es_admin });
   } catch (error) {
     return res.status(500).json({ message: "Error al registrar el usuario" });
   }
