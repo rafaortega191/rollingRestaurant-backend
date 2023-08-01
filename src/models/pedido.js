@@ -32,6 +32,31 @@ const pedidoSchema = new Schema({
         required:true
 
     },
+    nombreUsuario:{
+        type: String,
+        required:true
+
+    },
+    fechaActual: {
+        type: String,
+        required: true,
+        
+    },
+    _id: {
+        type: String,
+        required: true,
+        
+    },
+    cantidad: {
+        type: Number,
+        required: true,
+        
+    },
+    precioTotal: {
+        type: Number,
+        required: true,
+        
+    }
     
 })
 

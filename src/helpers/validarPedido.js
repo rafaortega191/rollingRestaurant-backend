@@ -35,6 +35,15 @@ const validarPedido = [
   (req, res, next) => {
     resultadoValidacion(req, res, next);
   },
+  check("_id")
+    .notEmpty()
+    .withMessage("El nombre del producto es obligatorio"),
+  check("cantidad")
+    .notEmpty()
+    .withMessage("El nombre del producto es obligatorio"),
+  check("precioTotal")
+    .notEmpty()
+    .withMessage("El nombre del producto es obligatorio")
 ];
 
 export default validarPedido;
