@@ -5,19 +5,25 @@ const jwt = require("jsonwebtoken");
 
 router.post("/registro", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password , nombre} = req.body;
+
+    console.log(email, password, nombre);
 
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
-      return res.status(400).json({ error: "El email ya está registrado" });
+      return res.status(400).json({ message: "El email ya está registrado" });
     }
 
-    const newUser = new User({ email, password });
+    const newUser = new User({ email, password, nombre });
+
+    console.log(newUser)
+
     await newUser.save();
 
-    return res.status(201).json({ message: "Usuario registrado exitosamente" });
+    return res.status(201).json({ message: "Usuario registrado exitosamente", usuario: nombre });
   } catch (error) {
-    return res.status(500).json({ error: "Error al registrar el usuario" });
+    return res.status(500).json({ message: "Error al registrar el usuario" });
   }
 });
 
@@ -34,7 +40,7 @@ router.post("/login", async (req, res) => {
       expiresIn: "1h",
     });
 
-    return res.status(200).json({ message: "Inicio de sesión exitoso", token });
+    return res.status(200).json({ message: "Inicio de sesión exitoso", nombre: user.nombre, es_admin: user.es_admin, token });
   } catch (error) {
     return res.status(500).json({ error: "Error al iniciar sesión" });
   }
