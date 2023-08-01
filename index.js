@@ -51,17 +51,14 @@ app.use(express.static(path.join(__dirname, "/public")));
 //     res.send('Esta es una prueba de mi ruta GET')
 // })
 
-<<<<<<< HEAD
-app.use("/user", userRoutes);
 
-app.use("/apirestaurante", productosRouter);
 
 app.listen(app.get("PORT"), () => {
   console.log(`Servidor corriendo en http://localhost:${app.get("PORT")}`);
 });
-=======
-// http://localhost:4000/apicafe/prueba
+
+app.use("/user", userRoutes);
 app.use('/apirestaurante', productosRouter)
 app.use('/apirestaurante', pedidorouter)
+
 //app.use('/apicafe/auth',usuarioRouter) 
->>>>>>> dev
