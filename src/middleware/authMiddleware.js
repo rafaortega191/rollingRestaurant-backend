@@ -7,7 +7,7 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).json({ error: 'Token no proporcionado' });
   }
 
-  if (req.path.startsWith('/user/login')) {
+  if (req.path.startsWith('/user/')) {
     return next();
   }
 
