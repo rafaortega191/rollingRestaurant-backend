@@ -24,6 +24,7 @@ app.set("PORT", process.env.PORT || 4000);
 
 app.use(bodyParser.json());
 
+
 //middlewares: funciones que se ejecutan antes de las rutas
 app.use(express.json()); //permite interpretar el formato json en un request
 app.use(express.urlencoded({ extended: true })); //permite interpretar string y arrays del request
@@ -48,3 +49,5 @@ app.use("/apirestaurante", productosRouter);
 app.use("/apirestaurante", pedidorouter);
 
 //app.use('/apicafe/auth',usuarioRouter)
+
+
