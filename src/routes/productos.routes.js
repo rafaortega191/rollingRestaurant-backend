@@ -16,13 +16,13 @@ const router = Router();
 router.get("/prueba", authenticateToken, controladorPrueba);
 router
   .route("/productos")
-  .post(authenticateToken, validarProducto, crearProducto) 
+  .post(validarProducto, crearProducto) 
   .get(obtenerListaProductos);
 
 router
   .route("/productos/:id")
   .get(obtenerProducto) 
-  .delete(authenticateToken, borrarProducto)
-  .put(authenticateToken, validarProducto, editarProducto);
+  .delete(borrarProducto)
+  .put(validarProducto, editarProducto);
 
 export default router;
