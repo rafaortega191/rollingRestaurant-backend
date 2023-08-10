@@ -7,14 +7,18 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
+    maxlength: 50,
   },
   password: {
     type: String,
     required: true,
+    maxlength: 100,
+    minlength: 8,
   },
   nombre: {
     type: String,
     required: true,
+    maxlength: 50,
   },
   es_admin: {
     type: Boolean,
