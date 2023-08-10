@@ -1,60 +1,109 @@
 const express = require("express");
+const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const User = require("../models/usuario");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
-router.post("/registro", async (req, res) => {
-  try {
-    const { email, password, nombre } = req.body;
+router.post(
+  "/registro",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("El email o contraseña no es válido")
+      .isLength({ max: 50 })
+      .withMessage("El email o contraseña no es válido"),
+    body("password")
+      .isLength({ min: 8, max: 100 })
+      .withMessage("El email o contraseña no es válido"),
+    body("nombre")
+      .isLength({ max: 50 })
+      .withMessage("El email o contraseña no es válido"),
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
 
-    console.log(email, password, nombre);
+      const { email, password, nombre } = req.body;
 
-    const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email });
 
-    if (existingUser) {
-      return res.status(400).json({ message: "El email ya está registrado" });
+      if (existingUser) {
+        return res.status(400).json({ message: "El email ya está registrado" });
+      }
+
+      const es_admin = false;
+      const newUser = new User({ email, password, nombre, es_admin });
+
+      await newUser.save();
+
+      return res.status(201).json({
+        message: "Usuario registrado exitosamente",
+        nombre: newUser.nombre,
+        es_admin: newUser.es_admin,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Error al registrar el usuario" });
     }
-
-    const es_admin = false;
-    const newUser = new User({ email, password, nombre, es_admin });
-
-    console.log(newUser);
-
-    await newUser.save();
-
-    return res.status(201).json({
-      message: "Usuario registrado exitosamente",
-      nombre: newUser.nombre,
-      es_admin: newUser.es_admin,
-    });
-  } catch (error) {
-    return res.status(500).json({ message: "Error al registrar el usuario" });
   }
-});
+);
 
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+router.post(
+  "/login",
+  [
+    body("email").isEmail().withMessage("El email no es válido"),
+    body("password")
+      .isLength({ min: 8, max: 100 })
+      .withMessage("El email o contraseña no es válido"),
+  ],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
 
-    const user = await User.findOne({ email, password });
-    if (!user) {
-      return res.status(401).json({ error: "Credenciales inválidas" });
+      const { email, password } = req.body;
+
+      const user = await User.findOne({ email });
+
+      if (user) {
+        const es_password_valido = await bcrypt.compare(
+          password,
+          user.password
+        );
+
+        if (es_password_valido) {
+          const token = jwt.sign(
+            { userId: user._id },
+            "TODO_CAMBIAR_ESTE_SECRET",
+            {
+              expiresIn: "1h",
+            }
+          );
+
+          return res.status(200).json({
+            message: "Inicio de sesión exitoso",
+            nombre: user.nombre,
+            es_admin: user.es_admin,
+            token,
+          });
+        } else {
+          return res.status(401).json({ error: "Credenciales inválidas" });
+        }
+      } else {
+        return res.status(404).json({ error: "Credenciales inválidas" });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Error al iniciar sesión" });
     }
-
-    const token = jwt.sign({ userId: user._id }, "TODO_CAMBIAR_ESTE_SECRET", {
-      expiresIn: "1h",
-    });
-
-    return res.status(200).json({
-      message: "Inicio de sesión exitoso",
-      nombre: user.nombre,
-      es_admin: user.es_admin,
-      token,
-    });
-  } catch (error) {
-    return res.status(500).json({ error: "Error al iniciar sesión" });
   }
-});
+);
 
 router.get("/users", async (req, res) => {
   try {
