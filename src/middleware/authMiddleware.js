@@ -1,19 +1,22 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+import "dotenv/config";
+
+const __secret = process.env.API_SECRET;
 
 const authenticateToken = (req, res, next) => {
-  const token = req.header('Authorization');
+  const token = req.header("Authorization");
 
   if (!token) {
-    return res.status(401).json({ error: 'Token no proporcionado' });
+    return res.status(401).json({ error: "Token no proporcionado" });
   }
 
-  if (req.path.startsWith('/*')) {
+  if (req.path.startsWith("/*")) {
     return next();
   }
 
-  jwt.verify(token, 'TODO_CAMBIAR_ESTE_SECRET', (err, user) => {
+  jwt.verify(token, __secret, (err, user) => {
     if (err) {
-      return res.status(403).json({ error: 'Token inválido' });
+      return res.status(403).json({ error: "Token inválido" });
     }
     req.user = user;
     next();
