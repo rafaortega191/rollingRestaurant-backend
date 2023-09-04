@@ -8,5 +8,5 @@ mongoose.connect(uri);
 const datosConexion = mongoose.connection;
 
 datosConexion.once('open', ()=>{
-    console.log('BD conectado');
+    
 })

@@ -20,8 +20,7 @@ const validarProducto = [
       }
     }),
   check("imagen").notEmpty().withMessage("la url de una imagen es obligatoria"),
-  //.matches(/^(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)$/)
-  //.withMessage("la imagen debe terminar en (png,jpg?g,gif,svg)"),
+
   check("categoria")
     .notEmpty()
     .withMessage("la categoria es un dato obligatorio")

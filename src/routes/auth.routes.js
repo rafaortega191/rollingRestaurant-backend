@@ -49,7 +49,7 @@ router.post(
         es_admin: newUser.es_admin,
       });
     } catch (error) {
-      console.log(error);
+      
       return res.status(500).json({ message: "Error al registrar el usuario" });
     }
   }
@@ -98,7 +98,7 @@ router.post(
         return res.status(404).json({ error: "Credenciales inválidas" });
       }
     } catch (error) {
-      console.log(error);
+      
       return res.status(500).json({ error: "Error al iniciar sesión" });
     }
   }
@@ -109,7 +109,7 @@ router.get("/users", async (req, res) => {
     const usuarios = await User.find();
     res.status(200).json(usuarios);
   } catch (error) {
-    console.log(error);
+    
     res.status(404).json({
       mensaje: "error al recuperar la lista de usuarios",
     });
@@ -123,7 +123,7 @@ router.delete("/users/:id", async (req, res) => {
       mensaje: "el usuario se elimino correctamente",
     });
   } catch (error) {
-    console.log(error);
+    
     res.status(404).json({
       mensaje: "error no se pudo borrar el usuario",
     });
@@ -137,7 +137,7 @@ router.put("/users/:id", async (req, res) => {
       mensaje: "el usuario fue actualizado correctamente",
     });
   } catch (error) {
-    console.log(error);
+    
     res.status(404).json({
       mensaje: "error no se pudo editar el usuario",
     });
@@ -146,11 +146,11 @@ router.put("/users/:id", async (req, res) => {
 
 router.get("/users/:id", async (req, res) => {
   try {
-    console.log(req.params.id);
+    
     const usuario = await User.findById(req.params.id);
     res.status(200).json(usuario);
   } catch (error) {
-    console.log(error);
+    
     res.status(404).json({
       mensaje: "error al recuperar el usuario",
     });
